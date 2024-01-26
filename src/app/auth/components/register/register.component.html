@@ -8,17 +8,17 @@
                 </p>
                 BACKEND ERRORS HERE 
 
-                <form>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <fieldset class="form-group">
-                        <input type="text" placeholder="username" class="form-control form-control-lg">
+                        <input type="text" placeholder="username" formControlName="username" class="form-control form-control-lg">
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <input type="email" placeholder="Email" class="form-control form-control-lg">
+                        <input type="email" placeholder="Email" formControlName="email" class="form-control form-control-lg">
                     </fieldset>
 
                     <fieldset class="form-group">
-                        <input type="password" placeholder="password" class="form-control form-control-lg">
+                        <input type="password" placeholder="password" formControlName="password" class="form-control form-control-lg">
                     </fieldset>
 
                     <button class="btn btn-lg btn-primary pull-xs-right">sign up</button>
