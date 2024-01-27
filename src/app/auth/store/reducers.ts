@@ -6,6 +6,7 @@ const intialState: AuthStateInterface = {
     isSubmitting: false
 }
 
+//auth reducers
 const authFeature = createFeature({
     name: 'auth',
     reducer: createReducer(
