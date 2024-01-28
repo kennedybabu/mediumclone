@@ -1,3 +1,4 @@
+
 <div class="auth-page">
     <div class="container page">
         <div class="row">
@@ -21,7 +22,7 @@
                         <input type="password" placeholder="password" formControlName="password" class="form-control form-control-lg">
                     </fieldset>
 
-                    <button class="btn btn-lg btn-primary pull-xs-right">sign up</button>
+                    <button class="btn btn-lg btn-primary pull-xs-right" [disabled]="isSubmitting$ | async">sign up</button>
                 </form>
             </div>
         </div>
