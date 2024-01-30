@@ -3,18 +3,23 @@ import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../services/service";
 import { authActions } from "./actions";
-import { catchError, map, of, switchMap } from "rxjs";
+import { catchError, map, of, switchMap, tap } from "rxjs";
 import { HttpErrorResponse } from '@angular/common/http';
+import { PersitentService } from 'src/app/shared/services/persistent.service';
+import { Router } from '@angular/router';
 
 export const registerEffect = createEffect((
     actions$ = inject(Actions),
-    authService = inject(AuthService)
+    authService = inject(AuthService),
+    persitentService = inject(PersitentService)
 ) => {
     return actions$.pipe(
         ofType(authActions.register),
         switchMap(({request}) => {
             return authService.register(request).pipe(
                 map((currentUser: CurrentUserInterface) => {
+                    persitentService.set('accessToken', currentUser.token)
+                    // window.localStorage.setItem('accessToken', currentUser.token)
                     return authActions.registerSuccess({currentUser})
                 }),
                 catchError((errorResponse: HttpErrorResponse) => {
@@ -26,3 +31,15 @@ export const registerEffect = createEffect((
         })
     )
 }, {functional: true})
+
+
+export const redirectAfterRegisterEffect = createEffect(
+    (actions$ = inject(Actions), router = inject(Router)) => {
+        return actions$.pipe(
+            ofType(authActions.registerSuccess),
+            tap(() => {
+                router.navigateByUrl('/')
+            })
+        )
+    },
+    {functional: true, dispatch: false})
